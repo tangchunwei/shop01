@@ -1,6 +1,7 @@
 <?php
+namespace controllers;
 class IndexController{
-    public function __construct(){
-        echo 'test';
+    public function index(){
+        echo "<h1>hello world!!</h1>";
     }
 }
