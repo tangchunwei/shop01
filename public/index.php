@@ -46,6 +46,11 @@ function route()
         die("请求的路径不合法");
     }
 }
+// 跳转方法
+function redirect($url){
+    header("location:".$url);
+    exit();
+}
 $route=route();
 $controller="controllers\\$route[0]";
 $action=$route[1];
