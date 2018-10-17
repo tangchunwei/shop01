@@ -1,7 +1,8 @@
 <?php 
 namespace models;
-class User
+class User extends BaseModel
 {
+    public $tableName='users';
     public function getName()
     {
         return 'tom';
