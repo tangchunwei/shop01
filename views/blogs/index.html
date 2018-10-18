@@ -10,7 +10,11 @@
         font-size: 1.2em;
         color: #F00;
     }
+    .page_active {
+    background-color: #F00;
+    }
 </style>
+
 <body>
     <h1>日志列表</h1>
     <div>
@@ -33,13 +37,21 @@
             <th>ID</th>
             <th>标题</th>
             <th>发表日期
-                <a <?php if($_GET['order_by']=='date' && $_GET['order_way']=='asc')  echo 'class="order_active" ' ?>  href="?order_by=date&order_way=asc<?=getUrlParams(['order_by','order_way'])?>">☝︎</a>
-                <a <?php if($_GET['order_by']=='date' && $_GET['order_way']=='desc')  echo 'class="order_active" ' ?>  href="?order_by=date&order_way=desc<?=getUrlParams(['order_by','order_way'])?>">☟</a>
+                <a <?php if($_GET['order_by']=='date' && $_GET['order_way']=='asc' ) echo 'class="order_active" ' ?>
+                    href="?order_by=date&order_way=asc
+                    <?=getUrlParams(['order_by','order_way'])?>">☝︎</a>
+                <a <?php if($_GET['order_by']=='date' && $_GET['order_way']=='desc' ) echo 'class="order_active" ' ?>
+                    href="?order_by=date&order_way=desc
+                    <?=getUrlParams(['order_by','order_way'])?>">☟</a>
             </th>
             <th>修改日期</th>
             <th>浏览量
-                <a <?php if($_GET['order_by']=='display' && $_GET['order_way']=='asc')  echo 'class="order_active" ' ?> href="?order_by=display&order_way=asc<?=getUrlParams(['order_by','order_way'])?>">☝︎</a>
-                <a <?php if($_GET['order_by']=='display' && $_GET['order_way']=='desc')  echo 'class="order_active" ' ?> href="?order_by=display&order_way=desc<?=getUrlParams(['order_by','order_way'])?>">☟</a>
+                <a <?php if($_GET['order_by']=='display' && $_GET['order_way']=='asc' ) echo 'class="order_active" ' ?>
+                    href="?order_by=display&order_way=asc
+                    <?=getUrlParams(['order_by','order_way'])?>">☝︎</a>
+                <a <?php if($_GET['order_by']=='display' && $_GET['order_way']=='desc' ) echo 'class="order_active" ' ?>
+                    href="?order_by=display&order_way=desc
+                    <?=getUrlParams(['order_by','order_way'])?>">☟</a>
             </th>
             <th>是否显示</th>
             <th>操作</th>
@@ -71,6 +83,7 @@
         </tr>
         <?php endforeach; ?>
     </table>
+    <?=$pageBtn?>
 </body>
 
 </html>

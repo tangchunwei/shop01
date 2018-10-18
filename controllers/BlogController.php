@@ -51,10 +51,37 @@ class BlogController
             $orderWay='desc';
         }
         // echo $orderBy, $orderWay;
+        // 拼接分页语句
+        // 每页显示的条数
+        $perpage=10;
+        // 获取当前页码
+        $page=isset($_GET['page'])?max(1,(int)$_GET['page']):1;
+        // 计算起始值
+        $offset=($page-1)*$perpage;
+        // 拼接limit
+        $limit=$offset.','.$perpage;
         $blog = new Blog;
-        $blogs = $blog->get("select * from blogs where $where order by $orderBy $orderWay");
+        // 制作分页按钮
+        // 取出总条数
+        $recordCount=$blog->count($where);
+        // 计算总页数
+        $pageCount=ceil($recordCount/$perpage);
+        // 制作分页按钮
+        $pageBtn='';
+        for($i=1;$i<=$pageCount;$i++){
+            $url=getUrlParams(['page']);
+            // 为当前页码添加样式
+            if($i==$page){
+                $class="class='page_active' ";
+            }else{
+                $class='';
+            }
+           $pageBtn.= "<a {$class} href='?page={$i}{$url}'> {$i} </a>";
+        }
+        $blogs = $blog->get("select * from blogs where $where order by $orderBy $orderWay limit $limit");
         view("blogs.index", [
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'pageBtn'=>$pageBtn
         ]);
     }
     // 生成随机汉字
