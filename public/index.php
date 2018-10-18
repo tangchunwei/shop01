@@ -16,7 +16,7 @@ function view($file, $data = [])
         extract($data);
     }
     // 加载试图 
-    require_once ROOT . 'views/' . str_replace('.', '/', $file) . '.html';
+    require ROOT . 'views/' . str_replace('.', '/', $file) . '.html';
 }
 // 解析路由，以及任务分发
 function route()

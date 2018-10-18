@@ -2,7 +2,7 @@
 namespace controllers;
 
 use models\Blog;
-
+use PDO;
 class BlogController
 {
     // 显示发表文章页面
@@ -110,23 +110,49 @@ class BlogController
     // 删除文章
     public function delete()
     {
-        $id=$_GET['id'];
-        $model=new Blog;
+        $id = $_GET['id'];
+        $model = new Blog;
         $model->delete("id={$id}");
         redirect('/blog/index');
     }
+    // 生成静态页
+    public function content_tohtml()
+    {
+        // 取出所有日志
+        $pdo=new PDO("mysql:host=127.0.0.1;dbname=basic_module",'root','520xiaona@520');
+        $pdo->exec("set names utf8");
+        $stmt=$pdo->query("select * from blogs");
+        $blogs=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        // echo "<pre>";
+        // var_dump($blogs);
+        // 开启缓冲区
+        ob_start();
+        // 生成静态页
+        foreach($blogs as $v){
+            // 加载视图
+            view('blogs.detail',[
+                'blog'=>$v
+            ]);
+            // 获取缓冲区内容
+            $str=ob_get_contents();
+            file_put_contents(ROOT."public/contents/".$v['id'].".html",$str);
+            // 清空缓冲区
+            ob_clean();
+        }
+    }
     // 显示日志详情
-    public function detail(){
-        $id=$_GET['id'];
-        $model=new Blog;
-        $blog=$model->find($id);
+    public function detail()
+    {
+        $id = $_GET['id'];
+        $model = new Blog;
+        $blog = $model->find($id);
         $blog['display']++;
         // 更新浏览量
         $model->update([
-            'display'=>$blog['display']
-        ],"id={$id}");
-        view('blogs.detail',[
-            'blog'=>$blog
+            'display' => $blog['display']
+        ], "id={$id}");
+        view('blogs.detail', [
+            'blog' => $blog
         ]);
 
     }
