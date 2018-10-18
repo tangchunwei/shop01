@@ -62,7 +62,7 @@
                 <?=$blog['id']?>
             </td>
             <td>
-                <?=$blog['title']?>
+                <a target="_blank" href="/blog/detail?id=<?=$blog['id']?>"><?=$blog['title']?></a>
             </td>
             <td>
                 <?=$blog['created_at']?>
@@ -78,7 +78,7 @@
             </td>
             <td>
                 <a href="/blog/edit?id=<?= $blog['id']?> ">修改</a>
-                <a href="">删除</a>
+                <a onclick="return confirm('确定要删除吗？')" href="/blog/delete?id=<?= $blog['id']?>">删除</a>
             </td>
         </tr>
         <?php endforeach; ?>

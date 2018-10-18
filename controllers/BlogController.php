@@ -97,15 +97,38 @@ class BlogController
     // 修改文章
     public function update()
     {
+        $id = $_GET['id'];
+        $model = new Blog;
+        $model->update([
+            'title' => $_POST['title'],
+            'content' => $_POST['content'],
+            'is_show' => $_POST['is_show'],
+            'short_content' => mb_substr($_POST['content'], 0, 200, 'utf-8')
+        ], "id={$id}");
+        redirect("/blog/index");
+    }
+    // 删除文章
+    public function delete()
+    {
         $id=$_GET['id'];
         $model=new Blog;
+        $model->delete("id={$id}");
+        redirect('/blog/index');
+    }
+    // 显示日志详情
+    public function detail(){
+        $id=$_GET['id'];
+        $model=new Blog;
+        $blog=$model->find($id);
+        $blog['display']++;
+        // 更新浏览量
         $model->update([
-            'title'=>$_POST['title'],
-            'content'=>$_POST['content'],
-            'is_show'=>$_POST['is_show'],
-            'short_content'=>mb_substr($_POST['content'],0,200,'utf-8')
+            'display'=>$blog['display']
         ],"id={$id}");
-        redirect("/blog/index");
+        view('blogs.detail',[
+            'blog'=>$blog
+        ]);
+
     }
     // 生成随机汉字
     public function getChar($num)
